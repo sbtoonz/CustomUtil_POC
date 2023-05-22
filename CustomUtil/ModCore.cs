@@ -4,15 +4,17 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using ServerSync;
 
-namespace ModFrame
+namespace CustomUtil
 {
     [BepInPlugin(ModGUID, ModName, ModVersion)]
-    public class NewMod : BaseUnityPlugin
+    public class CustomUtilMod : BaseUnityPlugin
     {
-        private const string ModName = "New Mod";
-        private const string ModVersion = "1.0";
-        private const string ModGUID = "some.new.guid";
+        internal const string ModName = "CustomUtilMod";
+        internal const string ModVersion = "1.0";
+        private const string ModGUID = "CustomUtilMod";
         private static Harmony harmony = null!;
+        
+        #region  ConfigSync
         ConfigSync configSync = new(ModGUID) 
             { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
         internal static ConfigEntry<bool> ServerConfigLocked = null!;
@@ -26,6 +28,8 @@ namespace ModFrame
             return configEntry;
         }
         ConfigEntry<T> config<T>(string group, string name, T value, string description, bool synchronizedSetting = true) => config(group, name, value, new ConfigDescription(description), synchronizedSetting);
+        #endregion
+        
         public void Awake()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
